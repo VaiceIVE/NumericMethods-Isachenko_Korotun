@@ -14,7 +14,7 @@ f = 30 - (x - 2) * sp.exp(-x + 2) - (y - 1) * sp.exp(-y + 1)
 def funcinx(func, x, vars):
     for i, var in enumerate(vars):
         func = sp.N(func.subs(var, x[i]))
-    return func
+    return float(func)
 
 
 
@@ -44,17 +44,19 @@ def coordinate_descent(func,
     while norm > eps:
         sk = -gradinx(grad, x_points[k], vars)/norm
         print("SK = ", sk)
-        l = sp.Symbol('l')
         def functomin(lamb):
             nonlocal sk
             subfunc = func
             for i, var in enumerate(vars):
-                subfunc = subfunc.subs(var, x_points[k][i])
-            return np.array(subfunc + lamb * funcinx(func, sk, vars))
-        res = scipy.optimize.minimize(functomin, 0, method='COBYLA')
+                subfunc = subfunc.subs(var, float(x_points[k][i] + lamb * sk[i]))
+            return np.array(subfunc)
+
+        res = scipy.optimize.minimize(functomin, 1, method='COBYLA')
+
+        print('lambda', res)
         x_points.append(x_points[k] + res.x[0] * sk)
         norm = numpy.linalg.linalg.norm(gradinx(grad, x_points[k], list(vars)))
         k += 1
     return x_points[len(x_points) - 1]
 
-print(coordinate_descent(f, [12, 12]))
+print(coordinate_descent(f, [7, 7]))
