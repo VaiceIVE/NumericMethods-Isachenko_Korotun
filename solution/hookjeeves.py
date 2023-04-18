@@ -8,7 +8,7 @@ def f(x, y, A=30, a=2, b=1):
 def summary(A, a, b, starting_point, eps, n_iters, opt, opt_value):
     return f"Оптимизация целевой функции {A} - (x - {a}) * exp(-x + {a}) - (y - {b}) * exp(-y + {b})\nпроизводилась из точки {starting_point} с заданной точностью {eps}.\nБыло произведено {n_iters} итераций, найдено оптимальное решение {[round(i, 2) for i in opt]} и\nоптимальное значение целевой функции {round(opt_value, 2)}"
 
-start_point = [150, 87]
+start_point = [30, 25]
 x = start_point
 eps = 0.001
 l0 = 5
